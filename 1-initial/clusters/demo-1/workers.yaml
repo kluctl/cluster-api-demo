@@ -1,0 +1,49 @@
+# contents of clusters/demo-1/workers.yaml
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: DockerMachineTemplate
+metadata:
+  name: "demo-1-md-0"
+  namespace: "cluster-demo-1"
+spec:
+  template:
+    spec: {}
+---
+apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+kind: KubeadmConfigTemplate
+metadata:
+  name: "demo-1-md-0"
+  namespace: "cluster-demo-1"
+spec:
+  template:
+    spec:
+      joinConfiguration:
+        nodeRegistration:
+          kubeletExtraArgs:
+            cgroup-driver: systemd
+            eviction-hard: 'nodefs.available<0%,nodefs.inodesFree<0%,imagefs.available<0%'
+---
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: MachineDeployment
+metadata:
+  name: "demo-1-md-0"
+  namespace: "cluster-demo-1"
+spec:
+  clusterName: "demo-1"
+  replicas: 1
+  selector:
+    matchLabels:
+  template:
+    spec:
+      clusterName: "demo-1"
+      version: "1.29.0"
+      bootstrap:
+        configRef:
+          name: "demo-1-md-0"
+          namespace: "cluster-demo-1"
+          apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+          kind: KubeadmConfigTemplate
+      infrastructureRef:
+        name: "demo-1-md-0"
+        namespace: "cluster-demo-1"
+        apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+        kind: DockerMachineTemplate

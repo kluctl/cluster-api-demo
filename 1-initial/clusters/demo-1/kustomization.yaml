@@ -1,0 +1,7 @@
+# contents of clusters/demo-1/kustomization.yaml
+resources:
+  - namespace.yaml
+  - cluster.yaml
+  - control-plane.yaml
+  - workers.yaml
+

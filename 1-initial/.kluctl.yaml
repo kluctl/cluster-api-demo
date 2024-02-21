@@ -1,0 +1,8 @@
+# content of .kluctl.yaml
+targets:
+  - name: demo-1
+    context: kind-kind
+  - name: demo-2
+    context: kind-kind
+
+discriminator: capi-{{ target.name }}
