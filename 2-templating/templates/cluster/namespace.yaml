@@ -1,0 +1,5 @@
+# contents clusters/{{ cluster.name }}/namespace.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cluster-{{ cluster.name }}

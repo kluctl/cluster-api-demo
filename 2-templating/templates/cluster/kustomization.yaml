@@ -1,0 +1,6 @@
+# contents of clusters/{{ cluster.name }}/kustomization.yaml
+resources:
+  - namespace.yaml
+  - cluster.yaml
+  - control-plane.yaml
+

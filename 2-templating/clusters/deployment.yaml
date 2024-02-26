@@ -1,0 +1,3 @@
+# content of clusters/deployment.yaml
+deployments:
+  - include: {{ target.name }}

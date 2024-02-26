@@ -1,0 +1,22 @@
+# content of clusters/demo-1/deployment.yaml
+vars:
+  - values:
+      cluster:
+        name: demo-1
+        replicas: 1
+
+deployments:
+  - path: ../../templates/cluster
+  - barrier: true
+  - path: ../../templates/workers
+    vars:
+      - values:
+          workers:
+            name: md-0
+            replicas: 1
+  - path: ../../templates/workers
+    vars:
+      - values:
+          workers:
+            name: md-1
+            replicas: 2

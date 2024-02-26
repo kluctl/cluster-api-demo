@@ -1,0 +1,49 @@
+# contents of clusters/{{ cluster.name }}/workers.yaml
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: DockerMachineTemplate
+metadata:
+  name: "{{ cluster.name }}-{{ workers.name }}"
+  namespace: "cluster-{{ cluster.name }}"
+spec:
+  template:
+    spec: {}
+---
+apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+kind: KubeadmConfigTemplate
+metadata:
+  name: "{{ cluster.name }}-{{ workers.name }}"
+  namespace: "cluster-{{ cluster.name }}"
+spec:
+  template:
+    spec:
+      joinConfiguration:
+        nodeRegistration:
+          kubeletExtraArgs:
+            cgroup-driver: systemd
+            eviction-hard: 'nodefs.available<0%,nodefs.inodesFree<0%,imagefs.available<0%'
+---
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: MachineDeployment
+metadata:
+  name: "{{ cluster.name }}-{{ workers.name }}"
+  namespace: "cluster-{{ cluster.name }}"
+spec:
+  clusterName: "{{ cluster.name }}"
+  replicas: {{ workers.replicas }}
+  selector:
+    matchLabels:
+  template:
+    spec:
+      clusterName: "{{ cluster.name }}"
+      version: "1.29.0"
+      bootstrap:
+        configRef:
+          name: "{{ cluster.name }}-{{ workers.name }}"
+          namespace: "cluster-{{ cluster.name }}"
+          apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+          kind: KubeadmConfigTemplate
+      infrastructureRef:
+        name: "{{ cluster.name }}-{{ workers.name }}"
+        namespace: "cluster-{{ cluster.name }}"
+        apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+        kind: DockerMachineTemplate

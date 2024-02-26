@@ -1,0 +1,6 @@
+# content of deployment.yaml
+deployments:
+  - include: clusters
+
+commonAnnotations:
+  kluctl.io/force-managed: "true"
