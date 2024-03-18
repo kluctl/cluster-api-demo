@@ -1,6 +1,6 @@
 # cluster-api-demo
 
-This is the demo project used in [Managing Cluster API with Kluctl](https://kubernetes.io/blog/). Please read this
+This is the demo project used in [Managing Cluster API with Kluctl](https://kluctl.io/blog/2024/03/13/cluster-api-kluctl/). Please read this
 tutorial to get a good understanding of the demo project.
 
 If you just want to give it a try, here are some instructions:
